@@ -8,10 +8,10 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-motor LeftDriveA = motor(PORT1, ratio18_1, false);
-motor LeftDriveB = motor(PORT2, ratio18_1, false);
-motor RightDriveA = motor(PORT3, ratio18_1, true);
-motor RightDriveB = motor(PORT4, ratio18_1, true);
+motor LeftDriveA = motor(PORT3, ratio18_1, false);
+motor LeftDriveB = motor(PORT4, ratio18_1, false);
+motor RightDriveA = motor(PORT1, ratio18_1, true);
+motor RightDriveB = motor(PORT2, ratio18_1, true);
 
 motor MotorGroup1MotorA = motor(PORT5, ratio36_1, false);
 motor MotorGroup1MotorB = motor(PORT6, ratio36_1, true);
@@ -26,7 +26,6 @@ signature Vision5__ROJO = signature (1, 10417, 12529, 11473, -501, 1, -250, 3.8,
 signature Vision5__AZUL = signature (2, -2081, -1779, -1930, 8447, 9217, 8832, 11, 0);
 vision Vision5 = vision (PORT19, 50, Vision5__ROJO, Vision5__AZUL);
 
-motor ArmMotor(PORT18, ratio18_1, false);
 motor BandMotor(PORT7, ratio18_1, false);
 
 // VEXcode generated functions
@@ -52,8 +51,8 @@ int rc_auto_loop_function_Controller1() {
       // calculate the drivetrain motor velocities from the controller joystick axies
       // left = Axis3 + Axis1
       // right = Axis3 - Axis1
-      int drivetrainLeftSideSpeed = Controller1.Axis3.position() + Controller1.Axis1.position();
-      int drivetrainRightSideSpeed = Controller1.Axis3.position() - Controller1.Axis1.position();
+      int drivetrainLeftSideSpeed = Controller1.Axis3.position() - Controller1.Axis1.position();
+      int drivetrainRightSideSpeed = Controller1.Axis3.position() + Controller1.Axis1.position();
       
       // check if the value is inside of the deadband range
       if (drivetrainLeftSideSpeed < 5 && drivetrainLeftSideSpeed > -5) {
@@ -92,10 +91,10 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
         RightDriveSmart.spin(forward);
       }
-      if (Controller1.ButtonL2.pressing()) {
+      if (Controller1.ButtonR2.pressing()) {
         MotorGroup1.spinToPosition(-165,degrees,vel,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
-      } else if (Controller1.ButtonR2.pressing()) {
+      } else if (Controller1.ButtonL2.pressing()) {
         MotorGroup1.spinToPosition(0,degrees,vel-vel_bajada,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (!Controller1UpDownButtonsControlMotorsStopped) {
@@ -114,6 +113,8 @@ int rc_auto_loop_function_Controller1() {
       } else {
         BandMotor.stop(); // hold, coast, brake
       }
+
+      
 
     }
     // wait before repeating the process
