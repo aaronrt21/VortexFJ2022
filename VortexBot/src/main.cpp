@@ -53,6 +53,52 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+  //Avanza hasta el goal amarillo
+  Drivetrain.setDriveVelocity(65, pct);
+  Drivetrain.setTurnVelocity(25, pct);
+  Drivetrain.driveFor(reverse, 700.0, mm, true);
+  Drivetrain.setDriveVelocity(30, pct);
+  Drivetrain.driveFor(reverse, 300.0, mm, true);
+
+  //Levanta el brazo para agarrar el goal amarillo
+  MotorGroup1.spinToPosition(-165, deg);
+
+  Drivetrain.setDriveVelocity(65, pct);
+  //Avanza de reversa para traer el goal amarillo a nuestra zona
+  Drivetrain.driveFor(forward, 450.00, mm, true);
+
+  //Gira hacia el centro para dejar el goal amarillo
+  Drivetrain.turnFor(100, deg, true);
+
+  Drivetrain.driveFor(reverse, 100.00, mm, true);
+  MotorGroup1.spinToPosition(0, deg);
+
+  Drivetrain.driveFor(forward, 300.00, mm, true);
+
+  MotorGroup1.spinToPosition(-165, deg, true);
+  Drivetrain.turnFor(-180, deg, true);
+  Drivetrain.driveFor(forward, 100.00, mm, true);
+  MotorGroup1.spinToPosition(0, deg);
+  
+
+  
+/*
+  //Avanza de reverza para alejarse del goal amarillo
+  Drivetrain.driveFor(forward, 300.00, mm, true);
+
+  //Levanta el brazo para evitar chocar con el goal rojo durante el siguiente giro
+  MotorGroup1.spinToPosition(-165, deg, false);
+
+  //Gira para encarar el goal rojo
+  Drivetrain.turnFor(-75, deg, true);
+
+  //Baja el brazo
+  MotorGroup1.spinToPosition(0, deg, false);
+
+  //Se aleja un poco del goal rojo
+  Drivetrain.driveFor(forward, 200.00, mm, true);
+  */
+  
 }
 
 /*---------------------------------------------------------------------------*/
@@ -67,84 +113,15 @@ void autonomous(void) {
 
 void usercontrol(void) {
   // User control code here, inside the loop
-  while (1) {
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
-    if (Controller1.ButtonR1.pressing()) {
-      ArmMotor.setVelocity(60, velocityUnits::pct); // pct or rpm
-      ArmMotor.spin(forward);
-    } else if (Controller1.ButtonR2.pressing()) {
-      ArmMotor.setVelocity(60, velocityUnits::pct);
-      ArmMotor.spin(reverse);
-    } else {
-      ArmMotor.stop(hold); // hold, coast, brake
-    }
-    // ........................................................................
-    // Insert user code here. This is where you use the joystick values to
-    // update your motors, etc.
-    // ........................................................................
-    wait(20, msec); // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
-  }
+ 
 }
 
 //
 // Main will set up the competition functions and callbacks.
 //
 int main() {
-  // Set up callbacks for autonomous and driver control periods.
-  // Competition.autonomous(autonomous);
-  // Competition.drivercontrol(usercontrol);
-
-  // Run the pre-autonomous function.
   pre_auton();
+  autonomous();
 
-  // Store Vision Sensor Field of View Centerpoint and desired Offset as
-  // variables int centerFOV = 158; int offsetX = 15;     // Increase or
-  // decrease value to adjust precision of the turn
 
-  /*while (true) {
-
-    // ArmMotor
-    if (Controller1.ButtonR1.pressing()) {
-      ArmMotor.setVelocity(60, velocityUnits::pct); // pct or rpm
-      ArmMotor.spin(forward);
-    } else if (Controller1.ButtonL1.pressing()) {
-      ArmMotor.setVelocity(-60, velocityUnits::pct);
-      ArmMotor.spin(forward);
-    } else {
-      ArmMotor.stop(); // hold, coast, brake
-    }
-    
-    // BandMotor
-    if (Controller1.ButtonR2.pressing()) {
-      BandMotor.setVelocity(60, velocityUnits::pct); // pct or rpm
-      BandMotor.spin(forward);
-    } else if (Controller1.ButtonL2.pressing()) {
-      BandMotor.setVelocity(-60, velocityUnits::pct);
-      BandMotor.spin(forward);
-    } else {
-      BandMotor.stop(); // hold, coast, brake
-    }*/
-    /*wait(100, msec);
-    Brain.Screen.clearLine();
-    Vision5.takeSnapshot(Vision5__ROJO);
-
-    if(Vision5.largestObject.exists){
-      if(Vision5.largestObject.centerX > centerFOV + offsetX){
-        RightDriveSmart.spin(directionType::fwd, 20, velocityUnits::pct);
-        LeftDriveSmart.spin(directionType::fwd, 20, velocityUnits::pct);
-      }
-
-      else{
-        RightDriveSmart.stop(brakeType::brake);
-        LeftDriveSmart.stop(brakeType::brake);
-      }
-    }
-    task::sleep(200);
-    // autonomous();
-    // RightDriveSmart.spin(directionType::fwd, 20, velocityUnits::pct);
-    // LeftDriveSmart.spin(directionType::fwd, 20, velocityUnits::pct);
-  }*/
 }

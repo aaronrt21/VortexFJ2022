@@ -11,6 +11,7 @@ extern motor RightDriveB;
 extern motor ArmMotor;
 extern motor BandMotor;
 extern controller Controller1;
+extern motor_group MotorGroup1;
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  * 
