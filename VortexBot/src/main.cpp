@@ -20,6 +20,7 @@ using namespace vex;
 // A global instance of competition
 competition Competition;
 
+
 // define your global instances of motors and other devices here
 
 /*---------------------------------------------------------------------------*/
@@ -39,66 +40,113 @@ void pre_auton(void) {
   // Example: clearing encoders, setting servo positions, ...
 }
 
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              Autonomous Task                              */
-/*                                                                           */
-/*  This task is used to control your robot during the autonomous phase of   */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
+
+/*---------------------------------------------------------------------------
+/ Funciones para cambiar la posición del brazo
+/
+/ Up: Los brazos están hasta arriba (pose inicial para pasar la inspección)
+/ Mid: Los brazos están a medias (a la altura de llevar el goal)
+/ Down: Los brazos están hasta abajo (para poder meter las tenazas debajo del goal)
+/
+---------------------------------------------------------------------------*/
+void up2down(bool wait)
+{
+  MotorGroup1.resetRotation();
+  MotorGroup1.spinToPosition(320, deg, wait);
+}
+
+void down2up(bool wait)
+{
+  MotorGroup1.resetRotation();
+  MotorGroup1.spinToPosition(-320, deg, wait);  
+}
+
+void up2mid(bool wait)
+{
+  MotorGroup1.resetRotation();
+  MotorGroup1.spinToPosition(155, deg, wait);  
+}
+
+void mid2up(bool wait)
+{
+  MotorGroup1.resetRotation();
+  MotorGroup1.spinToPosition(-155, deg, wait);
+}
+
+void mid2down(bool wait)
+{
+  MotorGroup1.resetRotation();
+  MotorGroup1.spinToPosition(165, deg, wait);    
+}
+
+void down2mid(bool wait)
+{
+  MotorGroup1.resetRotation();
+  MotorGroup1.spinToPosition(-165, deg, wait);
+}
+//-----------------------------------------------------------------------------
+
 
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
-  //Avanza hasta el goal amarillo
+  // setDriveVelocity: Cambia la velocidad de manejo a un (cantidad, pct)
+  // driveFor: Maneja una distancia de (cantidad, unidades_distancia)
+  // turnFor: Gira el robot sobre su eje (cantidad, unidades_angulo)
+  // x2y (down2mid, mid2down, etc.): Cambia la posición del brazo de x a y
+  
   Drivetrain.setDriveVelocity(65, pct);
-  Drivetrain.setTurnVelocity(25, pct);
-  Drivetrain.driveFor(reverse, 700.0, mm, true);
-  Drivetrain.setDriveVelocity(30, pct);
-  Drivetrain.driveFor(reverse, 300.0, mm, true);
+  
+  
+  //Ajuste de la velocidad de giro
+  Drivetrain.setTurnVelocity(35, pct);
 
-  //Levanta el brazo para agarrar el goal amarillo
-  MotorGroup1.spinToPosition(-165, deg);
+  //Baja el brazo para poder levantar el goal amarillo
+  up2down(true);
 
+  //Avanza hacia el goal amarillo
+  
+  Drivetrain.driveFor(reverse, 700, mm, true);  
+  Drivetrain.setDriveVelocity(25, pct);
+  Drivetrain.driveFor(reverse, 190, mm, true);
+
+  //Levanta el goal amarillo
+  down2mid(true);
+
+  //Retrocede con el goal amarillo para traerlo a nuestra zona
   Drivetrain.setDriveVelocity(65, pct);
-  //Avanza de reversa para traer el goal amarillo a nuestra zona
-  Drivetrain.driveFor(forward, 450.00, mm, true);
+  Drivetrain.driveFor(forward, 400, mm, true);  
+  
+  //Gira hacia el centro de nuestra zona para dejar el goal amarillo
+  Drivetrain.turnFor(115, deg);
 
-  //Gira hacia el centro para dejar el goal amarillo
-  Drivetrain.turnFor(100, deg, true);
+  //Se mueve hacia el centro de nuestra zona
+  Drivetrain.driveFor(reverse, 200, mm, true);
 
-  Drivetrain.driveFor(reverse, 100.00, mm, true);
-  MotorGroup1.spinToPosition(0, deg);
+  //Deja el goal amarillo
+  mid2down(true);
+  Drivetrain.driveFor(forward, 170, mm, true);
 
-  Drivetrain.driveFor(forward, 300.00, mm, true);
+  //Gira para encarar nuestro goal
+  down2mid(true);
+  Drivetrain.driveFor(reverse, 30, mm, true);
+  Drivetrain.turnFor(-150, deg, true);
+  Drivetrain.driveFor(forward, 240, mm, true);
+  mid2down(true);
 
-  MotorGroup1.spinToPosition(-165, deg, true);
-  Drivetrain.turnFor(-180, deg, true);
-  Drivetrain.driveFor(forward, 100.00, mm, true);
-  MotorGroup1.spinToPosition(0, deg);
+  //Recoge nuestro goal
+  Drivetrain.driveFor(reverse, 300, mm, true);
+  Drivetrain.setDriveVelocity(25, pct);
+  Drivetrain.driveFor(reverse, 80, mm, true);
+
+  down2mid(true);
+  Drivetrain.driveFor(forward, 300, mm, true);
+  
+  //Anota (idealmente)
+  BandMotor.spin(forward, 100, pct);
   
 
-  
-/*
-  //Avanza de reverza para alejarse del goal amarillo
-  Drivetrain.driveFor(forward, 300.00, mm, true);
 
-  //Levanta el brazo para evitar chocar con el goal rojo durante el siguiente giro
-  MotorGroup1.spinToPosition(-165, deg, false);
 
-  //Gira para encarar el goal rojo
-  Drivetrain.turnFor(-75, deg, true);
-
-  //Baja el brazo
-  MotorGroup1.spinToPosition(0, deg, false);
-
-  //Se aleja un poco del goal rojo
-  Drivetrain.driveFor(forward, 200.00, mm, true);
-  */
-  
+  //Al final subir el brazo a 90° para el periodo de control
 }
 
 /*---------------------------------------------------------------------------*/
@@ -122,6 +170,5 @@ void usercontrol(void) {
 int main() {
   pre_auton();
   autonomous();
-
 
 }

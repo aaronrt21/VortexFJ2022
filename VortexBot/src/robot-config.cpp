@@ -91,11 +91,15 @@ int rc_auto_loop_function_Controller1() {
         RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
         RightDriveSmart.spin(forward);
       }
-      if (Controller1.ButtonR2.pressing()) {
-        MotorGroup1.spinToPosition(-165,degrees,vel,rpm);
+
+      if (Controller1.ButtonLeft.pressing() || Controller1.ButtonRight.pressing()) {
+        MotorGroup1.spinToPosition(155,degrees,vel,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
-      } else if (Controller1.ButtonL2.pressing()) {
+      } else if (Controller1.ButtonX.pressing()) {
         MotorGroup1.spinToPosition(0,degrees,vel-vel_bajada,rpm);
+        Controller1UpDownButtonsControlMotorsStopped = false;
+      }else if (Controller1.ButtonDown.pressing()) {
+        MotorGroup1.spinToPosition(320,degrees,vel-vel_bajada,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (!Controller1UpDownButtonsControlMotorsStopped) {
         MotorGroup1.stop(brakeType::hold);

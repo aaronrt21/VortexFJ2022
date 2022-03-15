@@ -8,7 +8,6 @@ extern motor LeftDriveA;
 extern motor LeftDriveB;
 extern motor RightDriveA;
 extern motor RightDriveB;
-extern motor ArmMotor;
 extern motor BandMotor;
 extern controller Controller1;
 extern motor_group MotorGroup1;
