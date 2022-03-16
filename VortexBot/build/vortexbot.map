@@ -2684,13 +2684,14 @@ Linker script and memory map
  .text._Z11usercontrolv
                 0x038004b0        0x4 build/src/main.o
                 0x038004b0                usercontrol()
- .text.main     0x038004b4       0x18 build/src/main.o
+ .text.main     0x038004b4       0x14 build/src/main.o
                 0x038004b4                main
  .text._GLOBAL__sub_I_main.cpp
-                0x038004cc       0x34 build/src/main.o
+                0x038004c8       0x34 build/src/main.o
  .text._ZN3vex6visionC2IJNS0_9signatureES2_EEElhDpRT_
-                0x03800500       0x40 build/src/robot-config.o
-                0x03800500                vex::vision::vision<vex::vision::signature, vex::vision::signature>(long, unsigned char, vex::vision::signature&, vex::vision::signature&)
+                0x038004fc       0x40 build/src/robot-config.o
+                0x038004fc                vex::vision::vision<vex::vision::signature, vex::vision::signature>(long, unsigned char, vex::vision::signature&, vex::vision::signature&)
+ *fill*         0x0380053c        0x4 
  .text._Z33rc_auto_loop_function_Controller1v
                 0x03800540      0x398 build/src/robot-config.o
                 0x03800540                rc_auto_loop_function_Controller1()

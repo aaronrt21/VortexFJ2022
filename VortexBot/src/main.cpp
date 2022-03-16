@@ -169,6 +169,6 @@ void usercontrol(void) {
 //
 int main() {
   pre_auton();
-  autonomous();
+  //autonomous();
 
 }
