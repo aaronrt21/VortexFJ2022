@@ -33,7 +33,7 @@ motor ArmMotorB = motor(PORT6, ratio36_1, true);
 motor_group ArmMotorGroup = motor_group(ArmMotorA, ArmMotorB);
 
 //Motor de la mano
-motor HandMotor(PORT7, ratio18_1, false);
+motor HandMotor(PORT11, ratio18_1, false);
 controller Controller2 = controller(primary);
 
 // VEXcode generated functions
@@ -103,13 +103,13 @@ int rc_auto_loop_function_Controller1() {
       
       // ArmMotor
       if (Controller2.ButtonUp.pressing()) {
-        ArmMotorGroup.spinToPosition(-285,degrees,vel,rpm);
+        ArmMotorGroup.spinToPosition(-300,degrees,vel,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (Controller2.ButtonRight.pressing() || Controller2.ButtonLeft.pressing()) {
         ArmMotorGroup.spinToPosition(-100,degrees,vel-vel_bajada,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (Controller2.ButtonDown.pressing()) {
-        ArmMotorGroup.spinToPosition(0,degrees,vel-vel_bajada,rpm);
+        ArmMotorGroup.spinToPosition(-10,degrees,vel-vel_bajada,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (!Controller1UpDownButtonsControlMotorsStopped) {
         ArmMotorGroup.stop(brakeType::hold);
