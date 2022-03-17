@@ -93,10 +93,10 @@ int rc_auto_loop_function_Controller1() {
       }
 
       if (Controller1.ButtonLeft.pressing() || Controller1.ButtonRight.pressing()) {
-        MotorGroup1.spinToPosition(115,degrees,vel,rpm);
+        MotorGroup1.spinToPosition(70,degrees,vel,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (Controller1.ButtonX.pressing()) {
-        MotorGroup1.spinToPosition(0,degrees,vel-vel_bajada,rpm);
+        MotorGroup1.spinToPosition(5,degrees,vel-vel_bajada,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       }else if (Controller1.ButtonDown.pressing()) {
         MotorGroup1.spinToPosition(320,degrees,vel-vel_bajada,rpm);
@@ -109,10 +109,10 @@ int rc_auto_loop_function_Controller1() {
 
       // BandMotor
       if (Controller1.ButtonR1.pressing()) {
-        BandMotor.setVelocity(100, velocityUnits::pct); // pct or rpm
+        BandMotor.setVelocity(65, velocityUnits::pct); // pct or rpm
         BandMotor.spin(forward);
       } else if (Controller1.ButtonL1.pressing()) {
-        BandMotor.setVelocity(-100, velocityUnits::pct);
+        BandMotor.setVelocity(-70, velocityUnits::pct);
         BandMotor.spin(forward);
       } else {
         BandMotor.stop(); // hold, coast, brake
