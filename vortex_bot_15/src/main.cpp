@@ -96,6 +96,9 @@ void runTests(void)
   vexDelay(1000);
   up2down(true);
   vexDelay(1000);
+  closeHand(true);
+  vexDelay(1000);
+  openHand(true);
 
   //Test de drivetrain
   Drivetrain.turnFor(90,deg);
@@ -114,20 +117,51 @@ void autonomous(void)
   // turnFor: Gira el robot sobre su eje (cantidad, unidades_angulo)
   // x2y (down2mid, mid2down, etc.): Cambia la posición del brazo de x a y
   Drivetrain.setDriveVelocity(65, pct);
-  
+  runTests();
+  //HandMotor.stop(brakeType::hold);
   
   //Ajuste de la velocidad de giro
   Drivetrain.setTurnVelocity(35, pct);
-  
-  runTests();
 
+  // NO BORRAR ESTE TURN FOR. POR ALGUNA RAZÓN EL ROBOT NO
+  // JALA (LA PARTE AUTÓNOMA) SI SE QUITA, IGNÓRENLO PLOX
+  // --AARÓN
+  Drivetrain.turnFor(0, deg);
+
+  
+
+  // Avanza al goal amarillo
+  Drivetrain.driveFor(forward, 90, distanceUnits::cm, true);
+  Drivetrain.turnFor(35, deg, true);
+  Drivetrain.driveFor(forward, 30, distanceUnits::cm);
+
+  // Agarra el gola amarillo
+  closeHand(true);
+  down2mid(true);
+
+  // Se regresa a la balanza con el goal amarillo
+  Drivetrain.driveFor(reverse, 90, distanceUnits::cm, true);
+  Drivetrain.turnFor(-35, deg, true);
+  Drivetrain.turnFor(170, deg, true);
+  /*
+  Drivetrain.driveFor(forward, 50, distanceUnits::cm, true);
+  Drivetrain.turnFor(-45, deg, true);
+
+  // Reduce su velocidad de manejo paara subir a la balanza
+  Drivetrain.setDriveVelocity(25, pct);
+
+  // Sube a la báscula con el home goal y el goal amarillo
+  Drivetrain.driveFor(forward, 50, distanceUnits::cm);
+  */
 }
+
+
 
 int main()
 {
   // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
+  pre_auton();
   // Etapa autónoma
-  //autonomous();
-  
+  autonomous();
+  // test();
 }
