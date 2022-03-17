@@ -93,7 +93,7 @@ int rc_auto_loop_function_Controller1() {
       }
 
       if (Controller1.ButtonLeft.pressing() || Controller1.ButtonRight.pressing()) {
-        MotorGroup1.spinToPosition(165,degrees,vel,rpm);
+        MotorGroup1.spinToPosition(115,degrees,vel,rpm);
         Controller1UpDownButtonsControlMotorsStopped = false;
       } else if (Controller1.ButtonX.pressing()) {
         MotorGroup1.spinToPosition(0,degrees,vel-vel_bajada,rpm);
